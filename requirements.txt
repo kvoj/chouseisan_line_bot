@@ -1,0 +1,13 @@
+Flask==0.12.2
+line-bot-sdk==1.5.0
+beautifulsoup4==4.8.1
+certifi==2019.9.11
+chardet==3.0.4
+idna==2.8
+pip==19.2.3
+requests==2.22.0
+setuptools==41.4.0
+soupsieve==1.9.4
+urllib3==1.25.6
+wheel==0.33.6
+
