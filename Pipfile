@@ -8,6 +8,9 @@ verify_ssl = true
 [packages]
 requests = "*"
 beautifulsoup4 = "*"
+flask = "*"
+urllib3 = "*"
+line-bot-sdk = "*"
 
 [requires]
 python_version = "3.7"
