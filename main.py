@@ -51,7 +51,7 @@ def handle_message(event):
 
     word = event.message.text
     if '!' != word[0]: return
-    result = str(pr.handle_string(word[1:]))
+    result = 'hello world' #str(pr.handle_string(word[1:]))
 
     line_bot_api.reply_message(
     event.reply_token,
