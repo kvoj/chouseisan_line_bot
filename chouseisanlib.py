@@ -20,3 +20,45 @@ class Chouseisan(object):
         new_schedule_url = 'https://chouseisan.com/s?' + complete_url.split('?')[1]
         return new_schedule_url
 
+    def get_total(self, url, number=3):
+        response = requests.get(url)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        tables = soup.find(id='nittei')
+        simple_table = []
+        table_list = [table for table in tables] # faster than `tables.contents`
+        table_list = table_list[1::2] # remove blank line
+
+        for table in table_list:
+            row = []
+            for t in table:
+                if "<class 'bs4.element.Tag'>" == str(type(t)):
+                    elements = [e for e in t]
+                    row.append(elements[0].string if 1 == len(elements) else elements[1].contents[0].string)
+            simple_table.append(row)
+
+        simple_table.pop()
+        simple_table.sort(key=lambda l: l.count('○'))
+        simple_table.reverse()
+        names = simple_table.pop()
+        names.pop(0) # remove '日程'
+
+        results = []
+
+        for t in simple_table[0:number]:
+            date = t.pop(0)
+            result_row = [date]
+            for i, e in enumerate(t):
+                if '○' == e:
+                    result_row.append(names[i])
+            results.append(result_row)
+
+        s = ''
+
+        for result in results:
+            s += result[0] + '\n'
+            s += ' '.join(result[1:]) + '\n\n'
+
+        return s[:-2]
+
