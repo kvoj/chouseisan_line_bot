@@ -11,6 +11,9 @@ beautifulsoup4 = "*"
 flask = "*"
 urllib3 = "*"
 line-bot-sdk = "*"
+google-api-python-client = "*"
+google-auth-httplib2 = "*"
+google-auth-oauthlib = "*"
 
 [requires]
 python_version = "3.7"

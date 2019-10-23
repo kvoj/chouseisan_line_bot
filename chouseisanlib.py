@@ -1,4 +1,5 @@
 import requests
+import datetime
 from bs4 import BeautifulSoup
 
 class Chouseisan(object):
@@ -61,4 +62,16 @@ class Chouseisan(object):
             s += ' '.join(result[1:]) + '\n\n'
 
         return s[:-2]
+
+    def _get_days(self, num=7):
+        dt_now = datetime.datetime.now()
+        result = []
+        for i in range(num):
+            result.append((dt_now + datetime.timedelta(days = i)).weekday())#.date().isoformat())
+        return result
+
+if __name__ == '__main__':
+    cho = Chouseisan()
+    test = cho._get_days()
+    print(test)
 
