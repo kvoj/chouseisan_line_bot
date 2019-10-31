@@ -38,7 +38,6 @@ def callback():
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
 
-
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
@@ -55,7 +54,7 @@ def handle_message(event):
 
     line_bot_api.reply_message(
     event.reply_token,
-    TextSendMessage(text=str(type(event.source)))#result)
+    TextSendMessage(text=result)
     )
 
 if __name__ == "__main__":

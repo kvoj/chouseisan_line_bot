@@ -1,8 +1,15 @@
 import requests
 import datetime
 from bs4 import BeautifulSoup
+import google_calendar_lib as GCar
 
 class Chouseisan(object):
+    def __init__(self):
+        calendar_id = '4hrfgm5memn5sdfgiahhsjsme8@group.calendar.google.com'
+        days = 7
+        self.holidays = GCar.get_holidays(calendar_id, days)
+        self.week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
     def _get_token(self):
         url_for_token = 'https://chouseisan.com'
         response = requests.get(url_for_token)
@@ -63,15 +70,28 @@ class Chouseisan(object):
 
         return s[:-2]
 
-    def _get_days(self, num=7):
+    def get_days(self, num=7):
         dt_now = datetime.datetime.now()
         result = []
         for i in range(num):
-            result.append((dt_now + datetime.timedelta(days = i)).weekday())#.date().isoformat())
+            result.append((dt_now + datetime.timedelta(days = i)).date().isoformat())
+        return result
+
+    def get_options_str(self):
+        result = ''
+        for i, date in enumerate(self.get_days()):
+            if date in self.holidays:
+                result += date[5:] + ' (' + self.week[i] + '.) ' + 'AM' + '\n'
+                result += date[5:] + ' (' + self.week[i] + '.) ' + 'PM' + '\n'
+            else:
+                result += date[5:] + ' (' + self.week[i] + '.) ' + '4限' + '\n'
+                result += date[5:] + ' (' + self.week[i] + '.) ' + '5限' + '\n'
+                result += date[5:] + ' (' + self.week[i] + '.) ' + '6限' + '\n'
         return result
 
 if __name__ == '__main__':
     cho = Chouseisan()
-    test = cho._get_days()
+    test = cho.get_options_str()
+    print(cho.holidays)
     print(test)
 
